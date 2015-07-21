@@ -1,0 +1,20 @@
+clone_depth: 5
+install:
+  - git submodule update --init --recursive
+  # Configuring Qt
+  - set QTDIR=C:\Qt\5.5\mingw492_32
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw492_32\bin;%PATH%
+  - qmake -v
+  - g++ -v
+build_script:
+  - cd src/
+  - qmake
+  - mingw32-make -s -j 2 
+  - cd ../
+test_script:
+  - cd tests/
+  - qmake
+  - mingw32-make -s -j 2
+  - cd ../
+  - ./bin/tests/tests -platform minimal -txt
+  - ./bin/tests/qml_tests -platform minimal -txt
